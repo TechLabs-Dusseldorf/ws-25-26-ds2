@@ -1,6 +1,6 @@
 ## Welcome Team 2 to your Project Phase
 
-### Project Name: Water Efficieny in Africa?
+### Project Name: Water Usage Efficiency (WUE) in African Data Centers
 This can be altered during the project
 ### Data:
 This is the dataset of your project: https://huggingface.co/datasets/PengfeiLi/WaterEfficientDatasetForAfricanCountries
