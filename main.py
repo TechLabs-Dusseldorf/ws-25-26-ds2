@@ -175,24 +175,6 @@ outlier_df
 # Higher outlier shares in precipitation and energy variables reflect distributional characteristics and country-level heterogeneity rather than data quality issues. 
 # No observations were removed at this stage
 
-##- Distribution check (variable-level EDA)
-# Purpose: understand shape (skewness), spread, and extreme values
 
-dist_table = df[core_vars].describe(percentiles=[0.01, 0.05, 0.5, 0.95, 0.99]).T
-dist_table["skew"] = df[core_vars].skew(numeric_only=True)
-dist_table[["mean","std","min","1%","5%","50%","95%","99%","max","skew"]].round(4)
 
- #-Histograms (for all core variables)
- # visual check for skewness, spread
-
-import matplotlib.pyplot as plt
-
-for col in core_vars:
-    plt.figure()
-    df[col].hist(bins=60)
-    plt.title(f"Histogram: {col}")
-    plt.xlabel(col)
-    plt.ylabel("count")
-    plt.tight_layout()
-    plt.show()
 
