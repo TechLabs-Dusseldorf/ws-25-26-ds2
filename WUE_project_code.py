@@ -1,14 +1,17 @@
+# %%
 ''' Primary libraries to import '''
 
 import numpy as np # for numerical operations
 import pandas as pd # for data loading, grouping and aggregation
 import matplotlib.pyplot as plt # basic plots
-
+# import seaborn as sns # nicer visuals
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", 1000)
 
 
+
+# %%
 '''
 Data Loading and Initial Exploration:
     - Load the dataset 
@@ -21,6 +24,8 @@ Data Loading and Initial Exploration:
 
 df = pd.read_csv("query-water-efficiency-data (1).csv")
 
+
+# %%
 
 # Create a function which store and display information related to dataset inspection
 
@@ -56,6 +61,8 @@ df.columns = df.columns.str.replace("^avg_", "", regex=True) # Remove avg_
 df.columns
 
 
+
+# %%
 # Coverage days by country to understand the time span of observations per country 
 
 df["date"] = pd.to_datetime(df["date"]) # datetime object
@@ -85,6 +92,7 @@ plt.tight_layout()
 plt.show()
 
 
+# %%
 """
 - Variable-Level Descriptive Analysis
     - Understand each variable independently before making any comparisons.
@@ -138,41 +146,8 @@ summary_stats = pd.DataFrame({
 summary_stats
 
 
-""" Wet-bulb temperature values appear inconsistent with physical expectations.
-# According to the dataset documentation, this variable is recorded in degrees Celsius.
-# However, descriptive statistics and hourly profiles suggest values that are unusually high 
-# relative to dry-bulb temperature.
-#
-# Since wet-bulb temperature should generally be less than or equal to air temperature,
-# we perform diagnostic checks to verify whether the variable may actually be recorded in Fahrenheit.
-#
-# The following tests evaluate this hypothesis. """
 
-
-(df["wetbulb_temperature"] > df["temperature"]).mean() * 100 # Wet-bulb reault to be always higher than temperature (dry-bulb). This is not supposed to happen.
-
-df[["temperature", "wetbulb_temperature"]].describe() # Compare magnitudes. Strongly suggesting a °F scale.
-
-df["wetbulb_temperature"] = (df["wetbulb_temperature"] - 32) * 5/9 # Proceed to convert the variable in Fahrenheit
-
-df[["temperature", "wetbulb_temperature"]].describe() # Now the variable values look more plausible.
-
-df["wetbulb_temperature"].describe()  
-
-# Recompute the summary stat
-
-summary_stats = pd.DataFrame({
-    "mean": df[core_vars].mean(),
-    "median": df[core_vars].median(),
-    "std": df[core_vars].std(),
-    "min": df[core_vars].min(),
-    "max": df[core_vars].max()
-})
-
-print(summary_stats)
-
-
-
+# %%
 ## Outliers identification ##
 # - understand whether extreme values exist
 # - check if they are rare and plausible
@@ -205,53 +180,12 @@ outlier_df
 
 
 
+# %% [markdown]
 # Outlier analysis shows that most variables have a small and expected proportion of extreme values. 
 # Higher outlier shares in precipitation and energy variables reflect distributional characteristics and country-level heterogeneity rather than data quality issues. 
 # No observations were removed at this stage
 
-# - Distribution check 
-# Purpose: understand shape (skewness), spread, and extreme values
-
-dist_table = df[core_vars].describe(percentiles=[0.01, 0.05, 0.5, 0.95, 0.99]).T
-dist_table["skew"] = df[core_vars].skew(numeric_only=True)
-dist_table[["mean","std","min","1%","5%","50%","95%","99%","max","skew"]].round(4)
-
-# Histograms: visual check for skewness, spread
-import matplotlib.pyplot as plt
-
-for col in core_vars:
-    plt.figure()
-    df[col].hist(bins=60)
-    plt.title(f"Histogram: {col}")
-    plt.xlabel(col)
-    plt.ylabel("count")
-    plt.tight_layout()
-    plt.show()
-    
-
-
-"""
-- Temporal validation
-    -Variables behaving smoothly over time?
-    -Diurnal patterns make physical sense?
-    -No strange jumps or aggregation artifacts exist
-
-"""
-
-## Compute Hourly Means
-
-hourly_profile = (
-    df.groupby("hour")[climate_vars].mean()
-)
-
-hourly_profile
-
-hourly_profile.plot(subplots=True, figsize=(10,8), sharex=True) # Using subplots since variables have different scales
-
-plt.suptitle("Hourly Mean Profiles — Climate Variables")
-plt.xticks(range(0,24))
-plt.tight_layout()
-plt.show()
+# %%
 
 
 
