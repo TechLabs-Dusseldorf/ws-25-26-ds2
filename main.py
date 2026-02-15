@@ -3,7 +3,7 @@
 import numpy as np # for numerical operations
 import pandas as pd # for data loading, grouping and aggregation
 import matplotlib.pyplot as plt # basic plots
-# import seaborn as sns # nicer visuals
+
 
 pd.set_option("display.max_columns", None)
 pd.set_option("display.width", 1000)
@@ -138,6 +138,40 @@ summary_stats = pd.DataFrame({
 summary_stats
 
 
+""" Wet-bulb temperature values appear inconsistent with physical expectations.
+# According to the dataset documentation, this variable is recorded in degrees Celsius.
+# However, descriptive statistics and hourly profiles suggest values that are unusually high 
+# relative to dry-bulb temperature.
+#
+# Since wet-bulb temperature should generally be less than or equal to air temperature,
+# we perform diagnostic checks to verify whether the variable may actually be recorded in Fahrenheit.
+#
+# The following tests evaluate this hypothesis. """
+
+
+(df["wetbulb_temperature"] > df["temperature"]).mean() * 100 # Wet-bulb reault to be always higher than temperature (dry-bulb). This is not supposed to happen.
+
+df[["temperature", "wetbulb_temperature"]].describe() # Compare magnitudes. Strongly suggesting a °F scale.
+
+df["wetbulb_temperature"] = (df["wetbulb_temperature"] - 32) * 5/9 # Proceed to convert the variable in Fahrenheit
+
+df[["temperature", "wetbulb_temperature"]].describe() # Now the variable values look more plausible.
+
+df["wetbulb_temperature"].describe()  
+
+# Recompute the summary stat
+
+summary_stats = pd.DataFrame({
+    "mean": df[core_vars].mean(),
+    "median": df[core_vars].median(),
+    "std": df[core_vars].std(),
+    "min": df[core_vars].min(),
+    "max": df[core_vars].max()
+})
+
+print(summary_stats)
+
+
 
 ## Outliers identification ##
 # - understand whether extreme values exist
@@ -196,6 +230,28 @@ for col in core_vars:
     
 
 
+"""
+- Temporal validation
+    -Variables behaving smoothly over time?
+    -Diurnal patterns make physical sense?
+    -No strange jumps or aggregation artifacts exist
+
+"""
+
+## Compute Hourly Means
+
+hourly_profile = (
+    df.groupby("hour")[climate_vars].mean()
+)
+
+hourly_profile
+
+hourly_profile.plot(subplots=True, figsize=(10,8), sharex=True) # Using subplots since variables have different scales
+
+plt.suptitle("Hourly Mean Profiles — Climate Variables")
+plt.xticks(range(0,24))
+plt.tight_layout()
+plt.show()
 
 
 
