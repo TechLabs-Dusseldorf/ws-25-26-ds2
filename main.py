@@ -46,7 +46,7 @@ def inspect_data(filepath):
     return df
 
 
-# Diplay the function
+# Display the function
 
 df = inspect_data("query-water-efficiency-data (1).csv")
 
@@ -138,7 +138,8 @@ summary_stats = pd.DataFrame({
 summary_stats
 
 
-""" Wet-bulb temperature values appear inconsistent with physical expectations.
+""" 
+    Wet-bulb temperature values appear inconsistent with physical expectations.
 # According to the dataset documentation, this variable is recorded in degrees Celsius.
 # However, descriptive statistics and hourly profiles suggest values that are unusually high 
 # relative to dry-bulb temperature.
@@ -146,10 +147,12 @@ summary_stats
 # Since wet-bulb temperature should generally be less than or equal to air temperature,
 # we perform diagnostic checks to verify whether the variable may actually be recorded in Fahrenheit.
 #
-# The following tests evaluate this hypothesis. """
+# The following tests evaluate this hypothesis. 
+
+"""
 
 
-(df["wetbulb_temperature"] > df["temperature"]).mean() * 100 # Wet-bulb reault to be always higher than temperature (dry-bulb). This is not supposed to happen.
+(df["wetbulb_temperature"] > df["temperature"]).mean() * 100 # Wet-bulb results to be always higher than temperature (dry-bulb). This is not supposed to happen.
 
 df[["temperature", "wetbulb_temperature"]].describe() # Compare magnitudes. Strongly suggesting a °F scale.
 
@@ -173,10 +176,13 @@ print(summary_stats)
 
 
 
-## Outliers identification ##
+""" 
+    Outliers identification 
 # - understand whether extreme values exist
 # - check if they are rare and plausible
 # - flag variables that may need special care later
+
+"""
 
 outlier_summary = []
 
@@ -253,5 +259,17 @@ plt.xticks(range(0,24))
 plt.tight_layout()
 plt.show()
 
+# The dataset exhibits coherent temporal dynamics consistent with physical expectations, supporting its suitability for comparative and modeling analyses.
 
 
+"""
+
+Climate Region Structure and Comparison
+
+Goal: Identify systematic geographic differences.
+We then explore spatial patterns:
+• Compare mean and distribution of avg_wue_fixed across climate regions (Desert, Savanna, Rainforest...).
+• Identify regions that tend to exhibit higher or lower water usage efficiency.
+Results remain descriptive and comparative.
+
+"""
