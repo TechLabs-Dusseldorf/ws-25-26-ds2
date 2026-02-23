@@ -260,9 +260,7 @@ plt.show()
 
 # The dataset exhibits coherent temporal dynamics consistent with physical expectations, supporting its suitability for comparative and modeling analyses.
 
-
 """
-
 Climate Region Structure and Comparison
 
 Goal: Identify systematic geographic differences.
@@ -377,6 +375,15 @@ for var in climate_vars:
     print(f"\nEqual-weight ranking by {var} (highest to lowest):")
     print(equal_weight_region_means[var].sort_values(ascending=False))
 
+"""
+Climate Region Structure and Comparison
+
+Goal: Identify systematic geographic differences.
+We then explore spatial patterns:
+• Compare mean and distribution of avg_wue_fixed across climate regions (Desert, Savanna, Rainforest...).
+• Identify regions that tend to exhibit higher or lower water usage efficiency.
+Results remain descriptive and comparative.
+"""
 
 # ------------------------------
 # 5) Differences between countries within each climate region
