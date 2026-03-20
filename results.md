@@ -66,7 +66,7 @@ Goal: understand the observations time span.
 ![Country coverage](figures/country_coverage.png)
 
 Countries differ in observation periods.  
-Some countries (e.g. Algeria, Morocco, South Africa) have close to **two years of data**, while others have around **one year**, indicating an unbalanced dataset.
+Some countries (Algeria, Morocco, South Africa, Tunisia and Libya) have close to **two years of data**, while others have around **one year**, indicating an unbalanced dataset.
 
 ---
 
