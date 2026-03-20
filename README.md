@@ -59,7 +59,7 @@ pip install -r requirements.txt
 Run calculations:
 
 ```bash
-python main.py ./query-water-efficiency-data.csv
+python main.py 
 ```
 ---
 
