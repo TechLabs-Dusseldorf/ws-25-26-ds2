@@ -1,6 +1,6 @@
 ## Welcome Team 2 to your Project Phase
 
-# 🌍 Water Usage Efficiency of Data Centers in Africa
+# :droplet: Cooling the Cloud: How Climate shapes Water Usage Efficiency in African Data Centers 
 
 ## 📖 Overview
 This project analyzes how **climate conditions affect onsite water usage efficiency (WUE)** of data centers across **African climate regions**.  
@@ -9,7 +9,7 @@ The goal is to provide data-driven insights to support **sustainable data center
 ---
 
 ## 👥 Who We Are
-We are a **sustainability consultancy** supporting governments and institutions in assessing **data center efficiency**.
+We are a **sustainability non-profit consultancy** supporting governments and institutions in assessing **data center cooling efficiency**.
 
 **Mission:**  
 Use **data science** to evaluate how **climate conditions impact data center sustainability**.
@@ -17,66 +17,52 @@ Use **data science** to evaluate how **climate conditions impact data center sus
 ---
 
 ## 🎯 Research Question
-> How do climate conditions influence onsite data center water usage efficiency across African climate zones?
+> Which regions in Africa offer the most favorable climate conditions for water-efficient data center operation?
 
 ---
 
-## 📊 Data & Variables
+## 🛠 Installation & Setup
 
-### DataSet
-https://huggingface.co/datasets/PengfeiLi/WaterEfficientDatasetForAfricanCountries
+### **System Requirements**
+- Python 3.8+
+- Git
+- pip 
+- *(Optional)* Virtual environment manager (`venv`, `virtualenv`, or `conda`)  
 
-### Outcome Variable
-- `WUE_FixedApproachDirect (L/kWh)` — onsite water usage efficiency
+### **1. Clone the Repository**
+```bash
+git clone git@github.com:TechLabs-Dusseldorf/ws-25-26-ds2.git
+cd ws-25-26-ds2
+```
 
-### Climate Predictors
-- `temperature` (°C)
-- `humidity` (%)
-- `wetbulb_temperature` (°C)
-- `precipitation` (mm)
-- `wind_speed` (m/s)
-- `climate_region` (e.g. Desert, Rainforest)
+### **2. Create a virtual environment (optional but recommended)**
 
+```bash
+python -m venv .venv
+source .venv/bin/activate  # macOS/Linux
+.venv\Scripts\activate     # Windows
+```
+
+### **3. Install dependencies**
+
+1. Ensure you're in the project root directory.  
+2. Install required packages using:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Running the Python Scripts
+
+1. Run the Python scripts using:
+
+Run calculations:
+
+```bash
+python main.py ./query-water-efficiency-data.csv
+```
 ---
 
-## 🔄 Data Aggregation
-Original data is highly granular (**city × hour**).  
-To improve usability and performance, data is aggregated to:
-
-- **Country level**
-- **Monthly frequency**
-
-`city` is used only for aggregation and then dropped.
-
----
-
-## 🧠 Analysis Plan
-- Data cleaning and harmonization  
-- Descriptive statistics and distributions  
-- Comparisons across climate regions  
-- Visualizations of climate vs. WUE  
-- **Bonus:** simple regression linking climate variables to WUE  
-
----
-
-## ⚠️ Challenges & Solutions
-
-### Challenges
-- Large dataset size  
-- High temporal and spatial granularity  
-- Heterogeneous data structure  
-
-### Solutions
-- Careful variable selection  
-- Aggregation to **country × month**  
-- Unified data format  
-
----
-
-## ✍️ Authors
-- Adrian Maloku  
+## ✍️ Authors 
 - Luca Pozzi  
-- Memduh Talha Köksal  
 - Negin Jaraei  
-
- 
