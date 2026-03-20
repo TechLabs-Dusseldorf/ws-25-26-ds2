@@ -20,15 +20,21 @@ def main():
     setup_logging()
     logging.info("Starting analysis...")
 
+    # Data loading & preprocessing
+
     df = inspect_data(data_path)
 
     ensure_wetbulb_in_celsius(df, threshold=5.0, verbose=True)
     outlier_df = identify_outliers_iqr(df, verbose=True)
 
+    # Descriptive analysis
+
     coverage = analyze_country_coverage(df, plot=True)
     summary_stats, full_describe = compute_core_descriptive_stats(df, verbose=True)
     dist_table = analyze_variable_distributions(df, plot=True, verbose=True)
     hourly_profile = analyze_hourly_climate_profiles(df, plot=True, verbose=True)
+
+    # Regional analysis
 
     region_results = run_climate_region_analysis(
         df,
@@ -44,6 +50,8 @@ def main():
         plot=True,
         verbose=True
     )
+
+    # Regression analysis
 
     climate_corr = check_climate_variable_correlation(
         df,
