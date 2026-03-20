@@ -19,7 +19,26 @@ Use **data science** to evaluate how **climate conditions impact data center sus
 ## 🎯 Research Question
 > Which regions in Africa offer the most favorable climate conditions for water-efficient data center operation?
 
----
+
+## Project Structure
+
+- `src/` – contains all source code for the analysis  
+  - `config.py` – defines file paths and variable groups used across the project  
+  - `preprocessing.py` – data loading, validation and preprocessing steps  
+  - `descriptive_analysis.py` – EDA and summary statistics  
+  - `regional_analysis.py` – comparison of climate regions and sensitivity analysis  
+  - `regression_analysis.py` – regression models and diagnostics  
+  - `utils.py` – helper functions (e.g. logging setup)  
+
+- `data/` – input dataset  
+
+- `figures/` – generated plots saved during the analysis  
+
+- `results.md` – summary of findings and visual outputs  
+
+- `main.py` – main file that runs the full analysis pipeline  
+
+- `requirements.txt` – project dependencies
 
 ## 🛠 Installation & Setup
 
