@@ -108,10 +108,9 @@ Hourly patterns are smooth and consistent, indicating:
 Goal: Identify systematic geographic differences.
 - Do climate regions differ systematically in their climate conditions and in WUE?
 
-We then explore spatial patterns:
-• Compare mean and distribution of avg_wue_fixed across climate regions (Desert, Savanna, Rainforest...).
-• Identify regions that tend to exhibit higher or lower water usage effectiveness.
-Results remain descriptive and comparative.
+Explore spatial patterns:
+- Compare mean and distribution of avg_wue_fixed across climate regions (Desert, Savanna, Rainforest...).
+- Identify regions that tend to exhibit higher or lower water usage effectiveness.
 
 ![Regional heatmap](figures/heatmap_region_means_standardized.png)
 
@@ -133,10 +132,9 @@ Regions with extreme heat or high humidity tend to show less favorable WUE value
 ## Climate sensitivity
 
 Purpose: Examine relationships between climate and WUE.
-We analyze how WUE varies with physical climate drivers:
-• Explore relationships between wue_fixed and climate_vars.
-• Use scatter plots and correlation measures to assess directional patterns.
-This phase still motivates later modeling and does not asserting causality.
+Analyze how WUE varies with physical climate drivers:
+- Explore relationships between wue_fixed and climate_vars.
+- Use scatter plots and correlation measures to assess directional patterns.
 
 ![Climate sensitivity heatmap](figures/climate_wue_matrix.png)
 
