@@ -139,51 +139,63 @@ This suggests that nonlinear climate effects, particularly related to temperatur
 """
 
 def run_wue_regression_by_region(df):
-    # Make sure quadratic terms exist here too
+    # To Make sure quadratic terms exist
     df["temperature_sq"] = df["temperature"] ** 2
     df["humidity_sq"] = df["humidity"] ** 2
 
-    for region, data_region in df.groupby("climate_region"):
+    regions = df["climate_region"].unique()
+    n_regions = len(regions)
+
+    n_cols = 3
+    n_rows = (n_regions + n_cols - 1) // n_cols
+
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5 * n_rows))
+
+    # If there is only one row/one plot, make axes always iterable
+    if n_regions == 1:
+        axes = [axes]
+    else:
+        axes = axes.flatten()
+
+    last_i = -1
+
+    for i, (region, data_region) in enumerate(df.groupby("climate_region")):
+        last_i = i
 
         logging.info("\n==============================")
         logging.info(f"CLIMATE REGION: {region}")
         logging.info("==============================")
 
-        # Features and target
-        X = data_region[[
-            "temperature",
-            "humidity",
-            "temperature_sq",
-            "humidity_sq",
-            "wind_speed",
-            "precipitation"
-        ]]
+        X = data_region[
+            [
+                "temperature",
+                "humidity",
+                "temperature_sq",
+                "humidity_sq",
+                "wind_speed",
+                "precipitation",
+            ]
+        ]
 
         y = data_region["wue_fixed"]
 
-        # Remove missing values
         data = pd.concat([X, y], axis=1).dropna()
         X = data[X.columns]
         y = data["wue_fixed"]
 
-        # Train/test split
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2, random_state=42
         )
 
-        # Scale features
         scaler = StandardScaler()
         X_train_scaled = scaler.fit_transform(X_train)
         X_test_scaled = scaler.transform(X_test)
 
-        # Train model
         model = LinearRegression()
         model.fit(X_train_scaled, y_train)
 
-        # Predictions
         y_pred = model.predict(X_test_scaled)
 
-        # Evaluation metrics
         r2 = r2_score(y_test, y_pred)
         mse = mean_squared_error(y_test, y_pred)
         rmse = np.sqrt(mse)
@@ -193,30 +205,35 @@ def run_wue_regression_by_region(df):
         logging.info(f"MSE: {mse:.4f}")
         logging.info(f"RMSE: {rmse:.4f}")
 
-        # Model coefficients
         coeff_df = pd.DataFrame({
             "Feature": X.columns,
             "Coefficient": model.coef_
         })
 
         logging.info("\nFeature Coefficients:")
-        logging.info(coeff_df)
+        logging.info("\n%s", coeff_df)
 
-        plt.figure(figsize=(7, 5))
-        sns.scatterplot(x=y_test, y=y_pred, alpha=0.5)
-        plt.plot(
-            [min(y_test), max(y_test)],
-            [min(y_test), max(y_test)],
+        ax = axes[i]
+        sns.scatterplot(x=y_test, y=y_pred, alpha=0.5, ax=ax)
+        ax.plot(
+            [y_test.min(), y_test.max()],
+            [y_test.min(), y_test.max()],
             color="red",
             linestyle="--"
         )
-        plt.title(f"Regression Fit: Actual vs Predicted ({region})")
-        plt.xlabel("Actual WUE")
-        plt.ylabel("Predicted WUE")
-        plt.tight_layout()
-        plt.savefig(
-            figures_dir / f"regression_actual_vs_predicted_wue_{region}.png",
-            dpi=300,
-            bbox_inches="tight"
-        )
-        plt.close()
+        ax.set_title(f"{region} (R² = {r2:.2f})")
+        ax.set_xlabel("Actual WUE")
+        ax.set_ylabel("Predicted WUE")
+
+    # Remove empty subplot panels
+    for j in range(last_i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    fig.suptitle("Regression Fit: Actual vs Predicted by Climate Region", y=1.02)
+    plt.tight_layout()
+    plt.savefig(
+        figures_dir / "regression_actual_vs_predicted_by_region.png",
+        dpi=300,
+        bbox_inches="tight"
+    )
+    plt.close()
