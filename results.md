@@ -195,6 +195,8 @@ Residual patterns indicate nonlinear relationships, suggesting that simple linea
 
 ### Regression performance
 
+![Regression by region](figures/regression_actual_vs_predicted_by_region.png)
+
 Regression results show:
 - high explanatory power of climate variables  
 - strong influence of temperature and humidity  
