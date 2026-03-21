@@ -20,7 +20,7 @@ Use **data science** to evaluate how **climate conditions impact data center sus
 > How do climate conditions influence cooling efficiency in data centers across different African climate regions?
 
 
-## Project Structure
+## 🗂️ Project Structure
 
 - `src/` – contains all source code for the analysis  
   - `config.py` – defines file paths and variable groups used across the project  
