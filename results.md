@@ -145,6 +145,9 @@ Their influence varies by region:
 - stronger temperature effects in Mediterranean and Steppe climates  
 - stronger humidity effects in Desert region
 
+The analysis indicates a potential multicollinearity issue among climate variables. 
+Wet-bulb temperature shows an extremely high correlation with WUE (0.97–0.99) across all climate regions. 
+This may partly reflect the fact that wet-bulb temperature is derived from temperature and humidity, making these variables related.
 
 ---
 
@@ -168,17 +171,24 @@ Scatterplots confirm:
 
 ## Regression analysis
 
-### Climate variable correlation
+After exploring climate patterns and regional differences, the next step is to quantify how strongly climate conditions influence Water Usage Effectiveness (WUE).
 
-Correlation analysis indicates a potential multicollinearity issue among climate variables. 
-Wet-bulb temperature shows an extremely high correlation with WUE (0.97–0.99) across all climate regions. 
-This may partly reflect the fact that wet-bulb temperature is derived from temperature and humidity, making these variables related.
+The goal of the regression analysis is not only to confirm that relationships exist, but to answer:
+
+Which climate variables have the strongest impact on WUE?
+Are these relationships linear or nonlinear?
+Do these effects differ across climate regions?
+Understanding these relationships helps assess how sensitive data center cooling efficiency is to environmental conditions and which factors matter most in practice.
+
+### Climate variable correlation
 
 Before proceeding with regression analysis, we examine the correlations among climate variables themselves to assess the degree of multicollinearity and ensure more reliable model estimation. 
 
+
+
 ![Climate variable correlation](figures/climate_variables_correlation.png)
 
-Climate variables show some degree of correlation, which is important to consider when interpreting regression results.
+Climate variables such as temperature and humidty show some degree of correlation with wetbulb temperature. To avoid multicollinearity issues, wetbulb temperature will be excluded from the regression model.
 
 ---
 
@@ -192,12 +202,10 @@ Residuals are approximately normally distributed.
 
 Residual patterns indicate nonlinear relationships, suggesting that simple linear models are not sufficient.
 
----
+Quadratic terms for temperature and humidity are included to capture potential nonlinear effects, as extreme climate conditions may impact cooling efficiency differently than moderate ones.
 
-### Regression performance
+By running the regression separately for each climate region, we aim to identify regional differences in climate sensitivity and understand whether certain environments are more favorable for efficient operation.
 
-Regression analysis. The model will be run excluding "wetbulb_temperature" from the independent variables 
-to avoid multicollinearity with "temperature" and "humidity"
 
 ![Regression by region](figures/regression_actual_vs_predicted_by_region.png)
 
