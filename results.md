@@ -208,10 +208,11 @@ By running the regression separately for each climate region, we aim to identify
 
 
 ![Regression by region](figures/regression_actual_vs_predicted_by_region.png)
+![Regression coefficients](figures/regression_coefficients_by_region.png)
 
 Regression results show:
-- high explanatory power of climate variables  
-- strong influence of temperature and humidity  
+- explanatory power of climate variables  
+- influence of temperature and humidity  
 - evidence of nonlinear effects  
 
 Regional regressions confirm that climate sensitivity varies across regions.
@@ -222,9 +223,10 @@ Regional regressions confirm that climate sensitivity varies across regions.
 
 - **Temperature and humidity are the main drivers of WUE**
 - Climate effects are **nonlinear**, especially at extreme values  
-- The relationship between climate and WUE varies across regions  
-- Moderate climate conditions lead to better cooling efficiency  
-- Extreme heat and high humidity reduce performance  
+- The relationship between climate and WUE varies across regions
+  
+Mediterranean and Steppe regions offer the most favorable conditions for water-efficient data center operation, due to their combination of moderate temperatures and lower humidity. In contrast, Rainforest and Desert regions present the greatest challenges, driven by persistent humidity and extreme heat, respectively.  
+
 
 ---
 
