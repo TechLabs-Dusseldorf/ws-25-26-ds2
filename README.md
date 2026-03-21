@@ -3,7 +3,7 @@
 # :droplet: Cooling the Cloud: How Climate shapes Water Usage Effectiveness (WUE) in African Data Centers 
 
 ## 📖 Overview
-This project analyzes how **climate conditions affect onsite water usage efficiency (WUE)** of data centers across **African climate regions**.  
+This project analyzes how **climate conditions affect onsite water usage effectiveness (WUE)** of data centers across **African climate regions**.  
 The goal is to provide data-driven insights to support **sustainable data center planning and policy decisions**.
 
 ---
@@ -17,7 +17,7 @@ Use **data science** to evaluate how **climate conditions impact data center sus
 ---
 
 ## 🎯 Research Question
-> Which regions in Africa offer the most favorable climate conditions for water-efficient data center operation?
+> How do climate conditions influence cooling efficiency in data centers across different African climate regions?
 
 
 ## Project Structure
