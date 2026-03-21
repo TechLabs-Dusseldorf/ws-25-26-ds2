@@ -11,6 +11,28 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 from src.config import figures_dir
 
+
+# Function to save future regression tables as image
+
+def save_table_as_image(df, filename):
+    fig, ax = plt.subplots(figsize=(10, 4))
+    ax.axis('off')
+
+    table = ax.table(
+        cellText=df.round(3).values,
+        colLabels=df.columns,
+        rowLabels=df.index,
+        loc='center'
+    )
+
+    table.auto_set_font_size(False)
+    table.set_fontsize(8)
+    table.scale(1, 1.5)
+
+    plt.savefig(filename, bbox_inches='tight', dpi=300)
+    plt.close()
+
+
 """  
 Correlation analysis indicates a potential multicollinearity issue among climate variables. 
 Wet-bulb temperature shows an extremely high correlation with WUE (0.97–0.99) across all climate regions. 
@@ -139,7 +161,6 @@ This suggests that nonlinear climate effects, particularly related to temperatur
 """
 
 def run_wue_regression_by_region(df):
-    # To Make sure quadratic terms exist
     df["temperature_sq"] = df["temperature"] ** 2
     df["humidity_sq"] = df["humidity"] ** 2
 
@@ -151,11 +172,12 @@ def run_wue_regression_by_region(df):
 
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5 * n_rows))
 
-    # If there is only one row/one plot, make axes always iterable
     if n_regions == 1:
         axes = [axes]
     else:
         axes = axes.flatten()
+
+    all_coeffs = []  # collect coefficients
 
     last_i = -1
 
@@ -166,16 +188,14 @@ def run_wue_regression_by_region(df):
         logging.info(f"CLIMATE REGION: {region}")
         logging.info("==============================")
 
-        X = data_region[
-            [
-                "temperature",
-                "humidity",
-                "temperature_sq",
-                "humidity_sq",
-                "wind_speed",
-                "precipitation",
-            ]
-        ]
+        X = data_region[[
+            "temperature",
+            "humidity",
+            "temperature_sq",
+            "humidity_sq",
+            "wind_speed",
+            "precipitation"
+        ]]
 
         y = data_region["wue_fixed"]
 
@@ -205,14 +225,13 @@ def run_wue_regression_by_region(df):
         logging.info(f"MSE: {mse:.4f}")
         logging.info(f"RMSE: {rmse:.4f}")
 
-        coeff_df = pd.DataFrame({
-            "Feature": X.columns,
-            "Coefficient": model.coef_
-        })
+        # Collect coefficients
+        row = {"region": region, "R2": r2}
+        for feature, coef in zip(X.columns, model.coef_):
+            row[feature] = coef
+        all_coeffs.append(row)
 
-        logging.info("\nFeature Coefficients:")
-        logging.info("\n%s", coeff_df)
-
+        # Plot
         ax = axes[i]
         sns.scatterplot(x=y_test, y=y_pred, alpha=0.5, ax=ax)
         ax.plot(
@@ -225,7 +244,7 @@ def run_wue_regression_by_region(df):
         ax.set_xlabel("Actual WUE")
         ax.set_ylabel("Predicted WUE")
 
-    # Remove empty subplot panels
+    # Remove empty axes
     for j in range(last_i + 1, len(axes)):
         fig.delaxes(axes[j])
 
@@ -237,3 +256,13 @@ def run_wue_regression_by_region(df):
         bbox_inches="tight"
     )
     plt.close()
+
+    # Create coefficient table
+    coeff_table = pd.DataFrame(all_coeffs).set_index("region")
+
+    save_table_as_image(
+        coeff_table,
+        figures_dir / "regression_coefficients_by_region.png"
+    )
+
+    return coeff_table
