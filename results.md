@@ -72,8 +72,8 @@ Some countries (Algeria, Morocco, South Africa, Tunisia and Libya) have close to
 
 ### Variable distributions
 
-Distribution check 
-Purpose: understand shape (skewness), spread, and extreme values
+Distribution check. 
+- Purpose: understand shape (skewness), spread and extreme values
 
 ![Distribution of variables](figures/distribution_check.png)
 
@@ -88,9 +88,10 @@ This supports the inclusion of nonlinear terms in the analysis.
 
 ### Hourly climate profiles
 
-- Temporal validation of climate variables
-    -Variables behaving smoothly over time?
-    -Diurnal patterns make physical sense?
+Temporal validation of climate variables.
+- Variables behaving smoothly over time?
+- Diurnal patterns make physical sense?
+
 Goal: Confirms data behaves reasonably before comparisons.
 
 ![Hourly climate profiles](figures/climate_temporal_validation.png)
@@ -109,13 +110,12 @@ Goal: Identify systematic geographic differences.
 - Do climate regions differ systematically in their climate conditions and in WUE?
 
 Explore spatial patterns:
-- Compare mean and distribution of avg_wue_fixed across climate regions (Desert, Savanna, Rainforest...).
-- Identify regions that tend to exhibit higher or lower water usage effectiveness.
+- Compare mean and distribution of dependent variable across climate regions (Desert, Savanna, Rainforest...).
+- Identify regions that tend to exhibit higher or lower WUE.
 
 ![Regional heatmap](figures/heatmap_region_means_standardized.png)
 
-Climate conditions vary significantly across regions.  
-Equal-weight averaging ensures that results are not dominated by countries with more observations.
+Climate conditions are generally more intense in Rainforest region, with consistently higher values across variables, while Mediterranean region exhibit comparatively lower levels.
 
 ---
 
@@ -123,17 +123,18 @@ Equal-weight averaging ensures that results are not dominated by countries with 
 
 ![WUE by region](figures/boxplot_wue_region.png)
 
-WUE differs across climate regions, indicating that environmental conditions influence cooling efficiency.
+WUE differs across climate regions, indicating that environmental conditions might influence cooling efficiency.
 
-Regions with extreme heat or high humidity tend to show less favorable WUE values.
+Regions with extreme heat (Desert) or high humidity (Rainforest) tend to show less favorable WUE values.
 
 ---
 
 ## Climate sensitivity
 
-Purpose: Examine relationships between climate and WUE.
+Goal: Examine relationships between climate and WUE.
+
 Analyze how WUE varies with physical climate drivers:
-- Explore relationships between wue_fixed and climate_vars.
+- Explore relationships between WUE and climate variables.
 - Use scatter plots and correlation measures to assess directional patterns.
 
 ![Climate sensitivity heatmap](figures/climate_wue_matrix.png)
@@ -194,6 +195,9 @@ Residual patterns indicate nonlinear relationships, suggesting that simple linea
 ---
 
 ### Regression performance
+
+Regression analysis. The model will be run excluding "wetbulb_temperature" from the independent variables 
+to avoid multicollinearity with "temperature" and "humidity"
 
 ![Regression by region](figures/regression_actual_vs_predicted_by_region.png)
 
