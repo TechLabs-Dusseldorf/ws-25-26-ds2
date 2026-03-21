@@ -1,6 +1,6 @@
 ## Welcome Team 2 to your Project Phase
 
-# :droplet: Cooling the Cloud: How Climate shapes Water Usage Efficiency in African Data Centers 
+# :droplet: Cooling the Cloud: How Climate shapes Water Usage Effectiveness (WUE) in African Data Centers 
 
 ## 📖 Overview
 This project analyzes how **climate conditions affect onsite water usage efficiency (WUE)** of data centers across **African climate regions**.  
